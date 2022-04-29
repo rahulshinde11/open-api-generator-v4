@@ -1,0 +1,16 @@
+encode : {{classname}} -> Encode.Value
+encode =
+    Encode.object << encodePairs
+
+
+encodeWithTag : ( String, String ) -> {{classname}} -> Encode.Value
+encodeWithTag (tagField, tag) model =
+    Encode.object <| encodePairs model ++ [ ( tagField, Encode.string tag ) ]
+
+
+encodePairs : {{classname}} -> List (String, Encode.Value)
+encodePairs model =
+{{#allVars}}
+    {{#-first}}[{{/-first}}{{^-first}},{{/-first}} {{>recordFieldEncoder}}
+{{/allVars}}
+    ]
